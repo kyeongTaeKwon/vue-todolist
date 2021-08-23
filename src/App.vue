@@ -2,7 +2,7 @@
   <div id="app">
     <todo-header/>
     <todo-input v-on:addTodo='addTodo' />
-    <todo-list v-bind:todoList="todoList" v-on:toggleComplete='handleToggle' v-on:onDelete='handleDelete'/>
+    <todo-list v-bind:todoList="this.$store.state.todolist" v-on:toggleComplete='handleToggle' v-on:onDelete='handleDelete'/>
     <todo-footer v-on:clearAll='clearAll'/>
   </div>
 </template>
@@ -21,34 +21,29 @@ export default {
     TodoList,
     TodoFooter
   },
-  data(){
-    return {
-      todoList: []
-    }
-  },
   created: function(){
     const todolist =JSON.parse(localStorage.getItem('todolist'))||[] ;
-    this.todoList = todolist
+    this.$store.state.todolist = todolist
   },
   methods:{
     addTodo(value){
       const newTodoItem = {completed:false,value};
-      this.todoList.push(newTodoItem)
+      this.$store.state.todolist.push(newTodoItem)
     },
     handleToggle(target){
-      const targetItem = this.todoList[target]
-      this.todoList.splice(target,1,{...targetItem,completed:!targetItem.completed});
+      const targetItem = this.$store.state.todolist[target]
+      this.$store.state.todolist.splice(target,1,{...targetItem,completed:!targetItem.completed});
     },
     handleDelete(target){
-      this.todoList.splice(target,1);
+      this.$store.state.todolist.splice(target,1);
     },
     clearAll(){
-      this.todoList = [];
+      this.$store.state.todolist = [];
     }
   },
   watch:{
     todoList:function(){
-      localStorage.setItem('todolist',JSON.stringify(this.todoList));
+      localStorage.setItem('todolist',JSON.stringify(this.$store.state.todolist));
     }
   }
 }

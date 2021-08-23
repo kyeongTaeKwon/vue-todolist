@@ -1,6 +1,6 @@
 <template>
 <transition-group name='list' tag='ul'>
-    <li v-for="({value,completed},index) in todoList" :key="index+value" class="shadow" >
+    <li v-for="({value,completed},index) in this.$store.state.todoList" :key="index + index" class="shadow" >
         <i class="fas fa-check checkBtn" v-bind:class="{checkBtnCompleted: completed}" v-on:click='$emit("toggleComplete",index)'></i>
         <span v-bind:class="{textCompleted: completed}">{{ value }}</span>
         <span class="removeBtn" v-on:click='$emit("onDelete",index)'><i class="fas fa-trash-alt"></i></span>

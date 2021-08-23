@@ -1,7 +1,7 @@
 <template>
   
       <header>
-          <h1>Todo</h1>
+          <h1>{{this.$store.state.header}}</h1>
       </header>
   
 </template>
