@@ -1,9 +1,9 @@
 <template>
     <div class="inputBox shadow" >
-        <input type="text" v-model="todoItem" v-on:keyup.enter='addTodo'>
+        <input type="text" v-model="todoItem" v-on:keydown.enter='addTodoItem'>
         
         <span class="addContainer">
-            <button class="addBtn" v-on:click='addTodo'>
+            <button class="addBtn" v-on:click='addTodoItem'>
                 <i class="fas fa-plus"/>
             </button>
             
@@ -21,6 +21,10 @@
 
 <script>
 import Modal from './common/Modal.vue'
+import {createNamespacedHelpers} from 'vuex'
+
+const {mapMutations} = createNamespacedHelpers('todoModule');
+
 export default {
     data(){
         return {
@@ -29,9 +33,10 @@ export default {
         }
     },
     methods:{
-        addTodo(){
+        ...mapMutations(['addTodo']),
+        addTodoItem(){
             if(this.todoItem !== ''){
-                this.$emit('addTodo',this.todoItem)
+                this.addTodo(this.todoItem)
                 this.clearInput();
             }else{
                 this.showModal = true

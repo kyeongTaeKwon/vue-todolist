@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <todo-header/>
-    <todo-input v-on:addTodo='addTodo' />
-    <todo-list v-bind:todoList="this.$store.state.todolist" v-on:toggleComplete='handleToggle' v-on:onDelete='handleDelete'/>
-    <todo-footer v-on:clearAll='clearAll'/>
+    <todo-input  />
+    <todo-list  />
+    <todo-footer />
   </div>
 </template>
 
@@ -20,31 +20,6 @@ export default {
     TodoInput,
     TodoList,
     TodoFooter
-  },
-  created: function(){
-    const todolist =JSON.parse(localStorage.getItem('todolist'))||[] ;
-    this.$store.state.todolist = todolist
-  },
-  methods:{
-    addTodo(value){
-      const newTodoItem = {completed:false,value};
-      this.$store.state.todolist.push(newTodoItem)
-    },
-    handleToggle(target){
-      const targetItem = this.$store.state.todolist[target]
-      this.$store.state.todolist.splice(target,1,{...targetItem,completed:!targetItem.completed});
-    },
-    handleDelete(target){
-      this.$store.state.todolist.splice(target,1);
-    },
-    clearAll(){
-      this.$store.state.todolist = [];
-    }
-  },
-  watch:{
-    todoList:function(){
-      localStorage.setItem('todolist',JSON.stringify(this.$store.state.todolist));
-    }
   }
 }
 </script>

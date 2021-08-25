@@ -1,17 +1,25 @@
 <template>
 <transition-group name='list' tag='ul'>
-    <li v-for="({value,completed},index) in this.$store.state.todoList" :key="index + index" class="shadow" >
-        <i class="fas fa-check checkBtn" v-bind:class="{checkBtnCompleted: completed}" v-on:click='$emit("toggleComplete",index)'></i>
+    <li v-for="({value,completed},index) in todolist" :key="index + index" class="shadow" >
+        <i class="fas fa-check checkBtn" v-bind:class="{checkBtnCompleted: completed}" v-on:click='onComplete(index)'></i>
         <span v-bind:class="{textCompleted: completed}">{{ value }}</span>
-        <span class="removeBtn" v-on:click='$emit("onDelete",index)'><i class="fas fa-trash-alt"></i></span>
+        <span class="removeBtn" v-on:click='onDeleteTodo(index)'><i class="fas fa-trash-alt"></i></span>
     </li>
   </transition-group>
 </template>
 
 <script>
+import {createNamespacedHelpers} from 'vuex';
+
+const {mapState,mapMutations} = createNamespacedHelpers('todoModule')
+
 export default {
-    props:{
-        todoList: Array
+    computed:{
+        ...mapState(['todolist'])
+    },
+
+    methods:{
+        ...mapMutations(['onComplete','onDeleteTodo']),
     }
 }
 </script>
